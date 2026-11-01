@@ -120,14 +120,14 @@ Los textos finales de cada sección están en [contenido.md](contenido.md).
 1. **Header:** el nombre como marca en texto ("Lic. Carolina Bustos"), sin logo; el de Canva no le gusta y acepta que vaya solo el nombre. Navegación a las secciones y acceso a WhatsApp.
 2. **Hero:** quién es (licenciada en Nutrición), qué trata (salud digestiva), matrícula y dónde atiende (Rosario y online). Botón a WhatsApp.
    - Título basado en su bio de Instagram: "Nutrición para que vuelvas a comer tranquila".
-   - Foto: en el demo, una foto de ejemplo. Es la única imagen sin `loading="lazy"`.
+   - Sin foto (decisión del 31/10/2026, con la guía B + C): panel con la ilustración de trazo "Consulta". La foto de la profesional va en Sobre mí.
 3. **Para quién es:** las situaciones de sus pacientes (hinchazón, colon irritable, reflujo, celiaquía, también en niños) escritas para que quien lea piense "esto es lo mío". Incluye un mensaje para los médicos que derivan pacientes, con el mail para profesionales.
 4. **Cómo trabajo:** su enfoque en pocos principios: sin listas de prohibidos, de a poco y a tu ritmo, entender antes que restringir, en conjunto con el médico. Responde la preocupación de que el plan sea muy estricto.
-5. **Sobre mí (breve):** foto, dos o tres líneas, formación resumida y matrícula. Más adelante, una página aparte (`sobre-mi.html`) con la información completa; el enlace desde la home se muestra solo cuando esa página exista.
+5. **Sobre mí (breve):** foto, dos o tres líneas, formación resumida y matrícula. La información completa va en una página aparte (`sobre-mi.html`, construida el 31/10/2026), con el enlace "Conocé más sobre mí" desde la home.
 6. **Consultas:** consulta inicial (alrededor de 1 hora) y controles (alrededor de 40 minutos), modalidades presencial y online (martes y jueves), precios en pesos y en USD, y obra social.
 7. **Cómo es la primera consulta:** el proceso paso a paso, desde el primer mensaje hasta el punto de partida, y qué traer (estudios y análisis).
 8. **Testimonios:** marcados como ficticios. Cuentan la experiencia (sentirse escuchada, entender), sin resultados de salud.
-9. **Preguntas frecuentes:** obra social y reintegro, precios (remite a Consultas), medios de pago, consultas desde el exterior, funcionamiento de lo online, cambio de modalidad, qué traer (remite a Primera consulta), atención a niños, cantidad de consultas, contacto entre consultas, cancelaciones y relación con el médico.
+9. **Preguntas frecuentes:** en la home, solo las 4 más importantes (obra social y reintegro, medios de pago, si va a tener que dejar de comer muchas cosas y consultas desde el exterior) y un botón "Ver todas las preguntas frecuentes" que lleva a una página aparte (`preguntas-frecuentes.html`). Esa página reúne todas: obra social y reintegro, precios (remite a Consultas), medios de pago, consultas desde el exterior, funcionamiento de lo online, cambio de modalidad, qué traer (remite a Primera consulta), atención a niños, cantidad de consultas, contacto entre consultas, cancelaciones y relación con el médico.
 10. **Contacto:** WhatsApp con mensaje precargado (plantilla con huecos), días, dirección del consultorio y mapa, y mail solo para profesionales de la salud. Para pacientes el mail no se muestra, porque la clienta casi no lo revisa.
 11. **Footer:** nombre, título y matrícula, modalidad, Instagram, aviso de que el contenido no reemplaza la consulta médica y aviso de proyecto conceptual.
 

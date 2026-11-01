@@ -1,0 +1,1016 @@
+/* =========================================================
+   Lic. Carolina Bustos · Demo Nutricionista
+   Basado en la guía B + C: Ficha clara con trazo
+   (styleguides/bc-ficha-trazo/). Mobile-first.
+   Todo valor visual vive en los tokens de :root.
+   ========================================================= */
+
+:root {
+  /* Color */
+  --color-fondo: #F2F1EA;
+  --color-superficie: #E4E8DC;
+  --color-texto: #1E2620;
+  --color-texto-secundario: #4C5A4F;
+  --color-acento: #4F6331;
+  --color-acento-hover: #3E4F26;
+  --color-sobre-acento: #F2F1EA;
+  --color-trazo: #B5654A;   /* solo ilustraciones y adornos */
+  --color-filete: #B9A88A;  /* solo bordes decorativos */
+  /* Banda crema que agrupa secciones. Contraste encima: texto 12,27:1,
+     secundario 5,76:1, acento 5,25:1 (AA); trazo 3,37:1 (gráficos, 3:1). */
+  --color-banda: #EBE4D6;
+
+  /* Color sobre fondo oscuro (footer) */
+  --color-oscuro-fondo: #1E2620;
+  --color-oscuro-texto: #F2F1EA;
+  --color-oscuro-secundario: #B7C2B4;
+  --color-oscuro-acento: #C5D69B;
+
+  /* Tipografía */
+  --font-titulos: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-texto: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --fs-etiqueta: 0.8125rem;
+  --fs-sm: 0.9375rem;
+  --fs-base: 1.0625rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.4375rem;
+  --fs-2xl: 1.875rem;
+  --fs-3xl: clamp(2.25rem, 1.7rem + 2.6vw, 3.25rem);
+  --fs-comilla: 6rem;
+
+  --lh-titulos: 1.2;
+  --lh-texto: 1.6;
+
+  --fw-normal: 400;
+  --fw-fuerte: 600;
+
+  --tracking-etiqueta: 0.08em;
+
+  /* Espaciado */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  /* Radios: suaves, sin llegar a "burbuja" */
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-full: 62.5rem;
+
+  /* Sombras: apenas perceptibles, solo para despegar las fichas del fondo */
+  --sombra-ficha: 0 0.0625rem 0.125rem rgb(30 38 32 / 0.05),
+                  0 0.5rem 1.5rem rgb(30 38 32 / 0.06);
+  --sombra-header: 0 0.25rem 1rem rgb(30 38 32 / 0.08);
+
+  /* Medidas */
+  --ancho-max: 72rem;
+  --ancho-lectura: 38rem;
+  --ancho-etiqueta: 9rem;
+  --borde-fino: 0.0625rem;
+  --borde-foco: 0.1875rem;
+  --tamano-numero: 2.5rem;
+
+  /* Alto aproximado del header fijo: las anclas de la navegación dejan
+     ese espacio arriba para que el título no quede tapado. En móvil la
+     navegación ocupa varias líneas; desde 56rem va en una sola fila. */
+  --alto-header: 12rem;
+
+  /* Ilustraciones. El grosor va en unidades del SVG, no en rem, para que
+     escale junto con el dibujo. Los íconos usan un viewBox de 120; la escena
+     del hero, uno de 240 que se muestra más grande, así que lleva un grosor
+     menor para que la línea se vea igual. */
+  --trazo-grosor: 2.5;
+  --trazo-grosor-escena: 1.6;
+  --ilustracion-chica: 7rem;
+  --ilustracion-mediana: 10rem;
+  --ilustracion-escena-max: 30rem;
+
+  /* Botón sin efecto (primera o última ficha del slider) */
+  --opacidad-inactivo: 0.45;
+
+  /* Mapa del consultorio */
+  --mapa-proporcion: 4 / 3;
+
+  /* Movimiento */
+  --duracion-corta: 200ms;
+  --duracion-media: 300ms;
+  --duracion-trazo: 800ms;
+  --entrada-desplazamiento: 1.5rem;
+  --curva: cubic-bezier(0.2, 0.6, 0.2, 1);
+  --slider-intervalo: 7s; /* lo lee js/main.js para el avance automático */
+}
+
+@media (min-width: 56rem) {
+  :root {
+    --alto-header: 6rem;
+  }
+}
+
+/* ---------- Base ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-padding-top: var(--alto-header);
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: var(--font-texto);
+  font-size: var(--fs-base);
+  line-height: var(--lh-texto);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--font-titulos);
+  font-weight: var(--fw-fuerte);
+  line-height: var(--lh-titulos);
+}
+
+p,
+dl,
+dd {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Que ningún display (flex, inline-flex…) le gane al atributo hidden */
+[hidden] {
+  display: none !important;
+}
+
+:focus-visible {
+  outline: var(--borde-foco) solid var(--color-acento);
+  outline-offset: var(--space-1);
+}
+
+/* ---------- Enlace para saltar al contenido ----------
+   Fuera de pantalla hasta que recibe el foco con el teclado. */
+
+.salto {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 2;
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--color-acento);
+  border-radius: var(--radius-full);
+  color: var(--color-sobre-acento);
+  font-weight: var(--fw-fuerte);
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.salto:focus-visible {
+  transform: translateY(0);
+}
+
+/* ---------- Etiqueta en versalitas: rasgo de la ficha ---------- */
+
+.etiqueta {
+  color: var(--color-texto-secundario);
+  font-family: var(--font-texto);
+  font-size: var(--fs-etiqueta);
+  font-weight: var(--fw-fuerte);
+  letter-spacing: var(--tracking-etiqueta);
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+/* ---------- Tarjeta: la ficha redondeada que reemplaza a los filetes ---------- */
+
+.tarjeta {
+  padding: var(--space-5);
+  background-color: var(--color-superficie);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--sombra-ficha);
+}
+
+/* ---------- Estructura ---------- */
+
+.contenedor {
+  width: min(100% - 2 * var(--space-5), var(--ancho-max));
+  margin-inline: auto;
+}
+
+/* Las secciones se separan solo con aire, sin filetes */
+.seccion {
+  padding-block: var(--space-8);
+}
+
+/* Banda: fondo crema de ancho completo, con las esquinas redondeadas como
+   el footer. Envuelve una o más secciones del mismo tema, para que la
+   página no se lea como una sola superficie. */
+.banda {
+  background-color: var(--color-banda);
+  border-radius: var(--radius-lg);
+}
+
+.seccion__titulo {
+  margin-bottom: var(--space-4);
+  font-size: var(--fs-2xl);
+}
+
+.seccion__intro {
+  max-width: var(--ancho-lectura);
+  margin-bottom: var(--space-5);
+  color: var(--color-texto-secundario);
+}
+
+/* Grilla asimétrica: título a la izquierda, contenido a la derecha */
+.bloque {
+  display: grid;
+  gap: var(--space-5);
+}
+
+/* Columna de contenido: separa con aire las fichas de las notas de abajo */
+.bloque__contenido {
+  display: grid;
+  gap: var(--space-5);
+  align-content: start;
+}
+
+.bloque__ilustracion {
+  width: var(--ilustracion-chica);
+  margin-top: var(--space-4);
+}
+
+/* ---------- Aviso de proyecto conceptual ---------- */
+
+.aviso-conceptual {
+  margin: 0;
+  padding: var(--space-3) var(--space-5);
+  background-color: var(--color-texto);
+  color: var(--color-fondo);
+  font-size: var(--fs-sm);
+}
+
+/* ---------- Ilustraciones de trazo ---------- */
+
+.trazo {
+  display: block;
+  height: auto;
+  fill: none;
+  stroke: var(--color-trazo);
+  stroke-width: var(--trazo-grosor);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.trazo--escena {
+  stroke-width: var(--trazo-grosor-escena);
+}
+
+/* pathLength="1" en cada trazo permite dibujarlo con un solo valor */
+.trazo :is(path, circle) {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+/* ---------- Botones y enlaces ---------- */
+
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: var(--space-3) var(--space-5);
+  border: var(--borde-fino) solid transparent;
+  border-radius: var(--radius-full);
+  background-color: transparent; /* para <button> */
+  font-family: var(--font-texto);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-fuerte);
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--duracion-corta) var(--curva),
+              color var(--duracion-corta) var(--curva),
+              border-color var(--duracion-corta) var(--curva);
+}
+
+.boton--principal {
+  background-color: var(--color-acento);
+  color: var(--color-sobre-acento);
+}
+
+.boton--principal:hover,
+.boton--principal:focus-visible {
+  background-color: var(--color-acento-hover);
+}
+
+.boton--secundario {
+  border-color: var(--color-acento);
+  color: var(--color-acento);
+}
+
+.boton--secundario:hover,
+.boton--secundario:focus-visible {
+  border-color: var(--color-acento-hover);
+  color: var(--color-acento-hover);
+}
+
+.boton--chico {
+  min-height: 2.5rem;
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--fs-sm);
+}
+
+.enlace {
+  color: var(--color-acento);
+  font-weight: var(--fw-fuerte);
+  text-decoration: underline;
+  text-decoration-thickness: var(--borde-fino);
+  text-underline-offset: 0.2em;
+}
+
+.enlace:hover {
+  color: var(--color-acento-hover);
+}
+
+/* ---------- Header del sitio: banda salvia fija arriba ---------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: var(--color-superficie);
+  box-shadow: var(--sombra-header);
+}
+
+.site-header__contenido {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-4);
+  padding-block: var(--space-4);
+}
+
+.site-header__marca {
+  display: grid;
+  font-family: var(--font-titulos);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-fuerte);
+  line-height: var(--lh-titulos);
+}
+
+.site-header__bajada {
+  color: var(--color-texto-secundario);
+  font-family: var(--font-texto);
+  font-size: var(--fs-etiqueta);
+  font-weight: var(--fw-fuerte);
+  letter-spacing: var(--tracking-etiqueta);
+  text-transform: uppercase;
+}
+
+.site-nav {
+  order: 3;
+  width: 100%;
+}
+
+.site-nav__lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+}
+
+.site-nav__enlace {
+  display: inline-block;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  color: var(--color-texto);
+  font-size: var(--fs-sm);
+  text-decoration: none;
+  transition: background-color var(--duracion-corta) var(--curva);
+}
+
+.site-nav__enlace:hover {
+  background-color: var(--color-fondo);
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  display: grid;
+  gap: var(--space-6);
+  align-items: center;
+}
+
+.hero__titulo {
+  max-width: 16ch;
+  margin-block: var(--space-3) var(--space-5);
+  font-family: var(--font-titulos);
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-fuerte);
+  line-height: var(--lh-titulos);
+}
+
+.hero__bajada {
+  max-width: var(--ancho-lectura);
+  margin-bottom: var(--space-6);
+  font-size: var(--fs-lg);
+}
+
+.hero__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* Panel de la ilustración: ficha grande, fondo salvia */
+.hero__escena {
+  display: grid;
+  place-items: center;
+  padding: var(--space-5);
+  background-color: var(--color-superficie);
+  border-radius: var(--radius-lg);
+}
+
+.hero__escena .trazo {
+  width: 100%;
+  max-width: var(--ilustracion-escena-max);
+}
+
+/* Franja de datos debajo del hero */
+.hero__datos {
+  margin-top: var(--space-6);
+}
+
+/* ---------- Ficha: etiqueta + dato, separados por aire ---------- */
+
+.ficha {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.ficha__fila {
+  display: grid;
+  gap: var(--space-1);
+  align-content: start;
+}
+
+/* Variante en franja: los datos en columnas, etiqueta arriba del dato */
+.ficha--franja {
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-5);
+}
+
+/* ---------- Para quién es ---------- */
+
+.situaciones {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.situacion {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+}
+
+.situacion__titulo {
+  font-size: var(--fs-xl);
+}
+
+/* ---------- Principios ---------- */
+
+.principios {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.principio {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+}
+
+.principio__titulo {
+  font-size: var(--fs-xl);
+}
+
+/* ---------- Consultas ---------- */
+
+.consultas {
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+/* Dentro de .bloque__contenido el espacio lo da el gap de la columna */
+.bloque__contenido .consultas {
+  margin-bottom: 0;
+}
+
+.consulta__titulo {
+  margin-bottom: var(--space-4);
+  font-size: var(--fs-xl);
+}
+
+.aclaracion {
+  color: var(--color-texto-secundario);
+  font-size: var(--fs-sm);
+}
+
+/* ---------- Pasos ---------- */
+
+.pasos {
+  display: grid;
+  gap: var(--space-4);
+  counter-reset: paso;
+}
+
+.paso {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+  counter-increment: paso;
+}
+
+/* Número del paso en un círculo oliva. La lista ya es un <ol>,
+   así que el número es solo visual. */
+.paso::before {
+  content: counter(paso);
+  display: grid;
+  place-items: center;
+  width: var(--tamano-numero);
+  height: var(--tamano-numero);
+  margin-bottom: var(--space-2);
+  background-color: var(--color-acento);
+  border-radius: var(--radius-full);
+  color: var(--color-sobre-acento);
+  font-family: var(--font-titulos);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-fuerte);
+}
+
+.paso__titulo {
+  font-size: var(--fs-xl);
+}
+
+/* ---------- Lista con viñetas (la base quita las viñetas) ---------- */
+
+.lista {
+  display: grid;
+  gap: var(--space-2);
+  padding-left: var(--space-5);
+  list-style: disc;
+}
+
+.lista ::marker {
+  color: var(--color-acento);
+}
+
+/* ---------- Sobre mí ---------- */
+
+.sobre-mi {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.sobre-mi__texto {
+  display: grid;
+  gap: var(--space-4);
+  max-width: var(--ancho-lectura);
+}
+
+.sobre-mi__nombre {
+  font-size: var(--fs-xl);
+}
+
+.foto-pendiente {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 5;
+  max-width: 15rem;
+  padding: var(--space-5);
+  background-color: var(--color-superficie);
+  border: var(--borde-fino) dashed var(--color-filete);
+  border-radius: var(--radius-lg);
+  color: var(--color-texto-secundario);
+  font-size: var(--fs-sm);
+  text-align: center;
+}
+
+/* ---------- Slider: una ficha por vez, deslizando en horizontal ----------
+   Funciona sin JS con scroll-snap (dedo, trackpad, teclado). js/main.js
+   agrega los botones. Todas las fichas toman la altura de la más alta,
+   así la sección no salta al cambiar. */
+
+.slider {
+  display: grid;
+  gap: var(--space-4);
+  max-width: var(--ancho-lectura);
+}
+
+/* El padding deja ver la sombra y el foco de las fichas, que el scroll
+   recortaría; el margen negativo mantiene la ficha alineada con la columna. */
+.slider__pista {
+  display: grid;
+  grid-auto-columns: 100%;
+  grid-auto-flow: column;
+  gap: var(--space-4);
+  margin: calc(-1 * var(--space-3));
+  padding: var(--space-3);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-padding-inline: var(--space-3);
+  scroll-snap-type: x mandatory;
+  scrollbar-color: var(--color-filete) transparent;
+  scrollbar-width: thin;
+}
+
+.slider__pista > * {
+  scroll-snap-align: start;
+}
+
+.slider__controles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.slider__controles [aria-disabled="true"] {
+  opacity: var(--opacidad-inactivo);
+  cursor: default;
+}
+
+/* ---------- Testimonios ---------- */
+
+.testimonio {
+  position: relative;
+  max-width: var(--ancho-lectura);
+  margin: 0;
+}
+
+/* Doble clase: deja lugar arriba para la comilla en todos los anchos */
+.testimonio.tarjeta {
+  padding-top: var(--space-8);
+}
+
+/* Comilla grande decorativa, en color de trazo */
+.testimonio::before {
+  content: "\201C";
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-5);
+  color: var(--color-trazo);
+  font-family: var(--font-titulos);
+  font-size: var(--fs-comilla);
+  line-height: 1;
+}
+
+.testimonio__cita {
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-titulos);
+  font-size: var(--fs-xl);
+  font-style: italic;
+  line-height: 1.45;
+}
+
+.testimonio__autor {
+  color: var(--color-texto-secundario);
+  font-size: var(--fs-sm);
+}
+
+.testimonio__autor strong {
+  color: var(--color-texto);
+}
+
+/* ---------- Preguntas frecuentes ---------- */
+
+.faq {
+  display: grid;
+  gap: var(--space-3);
+  max-width: var(--ancho-lectura);
+}
+
+/* Doble clase para ganarle al padding de .tarjeta en todos los anchos:
+   el espacio vertical lo dan la pregunta y la respuesta. */
+.faq .faq__item {
+  padding-block: 0;
+}
+
+.faq__pregunta {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-4);
+  font-family: var(--font-titulos);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-fuerte);
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq__pregunta::-webkit-details-marker {
+  display: none;
+}
+
+.faq__pregunta::after {
+  content: "+";
+  color: var(--color-acento);
+  font-family: var(--font-texto);
+  transition: transform var(--duracion-media) var(--curva);
+}
+
+.faq__item[open] .faq__pregunta::after {
+  transform: rotate(45deg);
+}
+
+.faq__respuesta {
+  padding-bottom: var(--space-5);
+  color: var(--color-texto-secundario);
+}
+
+/* ---------- Mapa del consultorio ---------- */
+
+.mapa {
+  overflow: hidden;
+  aspect-ratio: var(--mapa-proporcion);
+  background-color: var(--color-superficie);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--sombra-ficha);
+}
+
+.mapa iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ---------- Footer: banda oscura que cierra la página ---------- */
+
+.site-footer {
+  padding-block: var(--space-7);
+  background-color: var(--color-oscuro-fondo);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  color: var(--color-oscuro-texto);
+  font-size: var(--fs-sm);
+}
+
+.site-footer__contenido {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.site-footer__marca {
+  margin-bottom: var(--space-2);
+  font-family: var(--font-titulos);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-fuerte);
+}
+
+.site-footer__legal {
+  display: grid;
+  gap: var(--space-2);
+  color: var(--color-oscuro-secundario);
+}
+
+.site-footer .enlace {
+  color: var(--color-oscuro-acento);
+}
+
+.site-footer .enlace:hover {
+  color: var(--color-oscuro-texto);
+}
+
+.site-footer :focus-visible {
+  outline-color: var(--color-oscuro-acento);
+}
+
+/* ---------- Pantallas chicas en adelante ---------- */
+
+/* La ficha pone etiqueta y dato lado a lado según el ancho de su caja,
+   no de la pantalla: dentro de una tarjeta angosta quedan apilados. */
+.consulta,
+.sobre-mi__texto,
+.contacto__datos {
+  container-type: inline-size;
+}
+
+@container (min-width: 30rem) {
+  .ficha:not(.ficha--franja) .ficha__fila {
+    grid-template-columns: var(--ancho-etiqueta) 1fr;
+    gap: var(--space-4);
+    align-items: baseline;
+  }
+}
+
+@media (min-width: 36rem) {
+  .tarjeta {
+    padding: var(--space-6);
+  }
+
+  .pasos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---------- Pantallas medianas ---------- */
+
+@media (min-width: 56rem) {
+  .bloque {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr);
+    gap: var(--space-7);
+  }
+
+  .site-nav {
+    order: 0;
+    width: auto;
+  }
+
+  .hero {
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--space-7);
+  }
+
+  /* El hero muestra tres datos: título, matrícula y modalidad */
+  .ficha--franja {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Cuatro tarjetas: en 2 × 2 no queda ninguna sola abajo */
+  .situaciones,
+  .principios {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .consultas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sobre-mi {
+    grid-template-columns: 13rem 1fr;
+  }
+
+  .site-footer__contenido {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ---------- Página interior (preguntas-frecuentes.html) ---------- */
+
+/* Fila de cabecera: título a la izquierda, ilustración a la derecha,
+   también en móvil (la ilustración es chica). */
+.pagina__cabecera {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-5);
+  margin-bottom: var(--space-6);
+}
+
+.pagina__ilustracion {
+  width: var(--ilustracion-chica);
+}
+
+/* Preguntas en 2 columnas desde 48rem, a todo el ancho del contenedor.
+   align-items: start evita que, al abrir una, la de al lado se estire. */
+@media (min-width: 48rem) {
+  .pagina__ilustracion {
+    width: var(--ilustracion-mediana);
+  }
+
+  .faq--columnas {
+    grid-template-columns: repeat(2, 1fr);
+    align-items: start;
+    max-width: none;
+  }
+}
+
+/* ---------- Animación ----------
+   Solo si la persona no pidió reducir el movimiento.
+   - Ilustraciones: el trazo se dibuja solo.
+   - Fichas: aparecen y suben un poco al entrar en pantalla.
+   Donde el navegador soporta animaciones ligadas al scroll, ocurren al
+   entrar en pantalla; si no, las ilustraciones se dibujan al cargar y las
+   fichas se ven directamente. Sin JS en ningún caso. */
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .salto {
+    transition: transform var(--duracion-corta) var(--curva);
+  }
+
+  .trazo :is(path, circle) {
+    animation: dibujar var(--duracion-trazo) var(--curva) both;
+  }
+
+  /* Sin scroll-driven: los trazos se dibujan escalonados al cargar */
+  @supports not (animation-timeline: view()) {
+    .trazo :is(path, circle):nth-child(2) { animation-delay: 120ms; }
+    .trazo :is(path, circle):nth-child(3) { animation-delay: 240ms; }
+    .trazo :is(path, circle):nth-child(4) { animation-delay: 360ms; }
+    .trazo :is(path, circle):nth-child(5) { animation-delay: 480ms; }
+    .trazo :is(path, circle):nth-child(n + 6) { animation-delay: 600ms; }
+  }
+
+  @supports (animation-timeline: view()) {
+    .trazo {
+      view-timeline-name: --trazo;
+    }
+
+    .trazo :is(path, circle) {
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-timeline: --trazo;
+      animation-range: entry 20% cover 45%;
+    }
+
+    .tarjeta {
+      animation: aparecer linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+
+    /* Dentro del slider la línea de tiempo sería la de la pista (que no
+       scrollea en vertical) y las fichas podrían quedar invisibles. */
+    .slider__pista > .tarjeta {
+      animation: none;
+    }
+  }
+
+  /* Preguntas frecuentes: altura animada donde exista ::details-content */
+  @supports (interpolate-size: allow-keywords) {
+    .faq {
+      interpolate-size: allow-keywords;
+    }
+
+    .faq__item::details-content {
+      block-size: 0;
+      overflow: hidden;
+      transition: block-size var(--duracion-media) var(--curva),
+                  content-visibility var(--duracion-media) allow-discrete;
+    }
+
+    .faq__item[open]::details-content {
+      block-size: auto;
+    }
+  }
+}
+
+@keyframes dibujar {
+  0% {
+    opacity: 0;
+    stroke-dashoffset: 1;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(var(--entrada-desplazamiento));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}

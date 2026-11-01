@@ -52,7 +52,7 @@ Acompaño a personas con colon irritable, celiaquía, hinchazón o reflujo a ent
 - Online desde cualquier lugar
 - M.P. N.º 0000 (ficticia)
 
-**Texto alternativo de la foto:** Carolina Bustos, licenciada en Nutrición, en su consultorio.
+**Imagen:** sin foto. Panel con la ilustración de trazo "Consulta" (decorativa, `aria-hidden`). Si más adelante se usa una foto, su texto alternativo es: Carolina Bustos, licenciada en Nutrición, en su consultorio.
 
 ---
 
@@ -123,7 +123,7 @@ Soy licenciada en Nutrición y hace nueve años que acompaño a personas en su a
 
 **Matrícula:** M.P. N.º 0000 (ficticia)
 
-**Enlace:** Conocé más sobre mí → `sobre-mi.html`. Se muestra solo cuando la página exista.
+**Enlace:** Conocé más sobre mí → `sobre-mi.html` (visible desde el 31/10/2026, cuando se construyó la página).
 
 **Texto alternativo de la foto:** Retrato de Carolina Bustos, licenciada en Nutrición.
 
@@ -216,6 +216,12 @@ Antes del turno te envío el enlace de la videollamada (dato ficticio). Solo nec
 
 **Título:** Preguntas frecuentes
 
+**En la home** se muestran solo las 4 más importantes, en este orden: 1 (obra social), 3 (cómo se paga), 8 (dejar de comer muchas cosas) y 4 (online desde otro país). Debajo, el botón **Ver todas las preguntas frecuentes** → `preguntas-frecuentes.html`.
+
+**En la página `preguntas-frecuentes.html`** van las 13, en el orden de esta lista. Si cambia una respuesta, se cambia en las dos páginas.
+
+Al pasar a la página aparte, los enlaces de las respuestas 2 y 7 apuntan a la home: `index.html#consultas` e `index.html#primera-consulta`.
+
 1. **¿Trabajás con obras sociales o prepagas?**
    No trabajo con obras sociales directamente. Al terminar cada consulta te entrego una factura para que pidas el reintegro. El monto depende de tu obra social y de tu plan, así que te recomiendo consultarlo antes.
 
@@ -305,20 +311,63 @@ Armé una guía con lo básico para los primeros días: qué revisar en tu cocin
 
 ---
 
-## Página Sobre mí (sobre-mi.html, paso posterior)
+## Página Preguntas frecuentes (preguntas-frecuentes.html, paso posterior)
 
-> Se construye después de la landing. Base del texto completo; se puede ampliar.
+> Se construye después de la landing. El botón de la home ya apunta acá: hasta que exista, da 404.
 
-**Título:** Sobre mí
+**Título de la página:** Preguntas frecuentes | Lic. Carolina Bustos, nutricionista en salud digestiva
 
-**Nombre:** Lic. Carolina Bustos
+**Descripción:** Respuestas sobre obra social y reintegro, precios, medios de pago, consultas online desde el exterior, atención a chicos y cómo es el seguimiento. [PENDIENTE: revisar la descripción con la clienta]
 
-**Texto:**
+**Título (h1):** Preguntas frecuentes
+
+**Contenido:** las 13 preguntas de la sección [Preguntas frecuentes](#preguntas-frecuentes), con los mismos textos.
+
+**Cierre:** [PENDIENTE: texto de cierre, por ejemplo una invitación a escribir por WhatsApp si la duda no está en la lista] y botón **Escribime por WhatsApp** con el mensaje precargado.
+
+**Estructura compartida con la home:** aviso de proyecto conceptual, header (los enlaces de navegación apuntan a `index.html#…`) y footer.
+
+---
+
+## Página Sobre mí (sobre-mi.html)
+
+> Construida el 31/10/2026. Base del texto completo; se puede ampliar.
+
+**Título de la página:** Sobre mí | Lic. Carolina Bustos, nutricionista en salud digestiva
+
+**Descripción:** Lic. Carolina Bustos, licenciada en Nutrición especializada en salud digestiva. Formación, matrícula y forma de trabajar. Consultas en Rosario y online. [PENDIENTE: revisar la descripción con la clienta]
+
+**Estructura:** hero → bloque con retrato y texto → Formación y cierre. Mismo aviso, header y footer que la home.
+
+### Hero
+
+**Antetítulo:** Sobre mí
+
+**Título (h1):** Lic. Carolina Bustos
+
+**Bajada:**
 Soy licenciada en Nutrición y hace nueve años que acompaño a personas en su alimentación. Con el tiempo me fui especializando en salud digestiva, y hoy me dedico a eso casi por completo.
 
+**Imagen:** ilustración de trazo "Libro" (un libro abierto, por la formación), decorativa.
+
+### Bloque con retrato
+
+**Título (h2):** Nutrición para que vuelvas a comer tranquila
+
+> Repite el h1 de la home, y el brief reserva "comer tranquila" para el hero. Se usó a pedido; confirmar con la clienta.
+
+**Foto:** [PENDIENTE: retrato de la profesional]
+
+**Texto:**
 Muchas de las personas que llegan a mi consultorio ya pasaron por varias consultas y están cansadas de no encontrar respuestas. Por eso me tomo el tiempo de escuchar, de explicar las cosas de forma simple y de armar, con cada persona, una forma de comer que pueda sostener. No trabajo con listas rígidas: prefiero ir de a poco y a tu ritmo.
 
 Atiendo en Rosario, en un consultorio compartido en barrio Echesortu, y online, para personas de todo el país y del exterior.
+
+### Formación
+
+**Título (h2):** Formación
+
+**Aviso:** Formación y matrícula ficticias, creadas para este proyecto conceptual.
 
 **Formación (ficticia):**
 - Licenciatura en Nutrición, Universidad Nacional de Rosario (2017).
@@ -327,5 +376,7 @@ Atiendo en Rosario, en un consultorio compartido en barrio Echesortu, y online, 
 - Curso de abordaje nutricional del síndrome de intestino irritable (2023).
 
 **Matrícula:** M.P. N.º 0000 (ficticia)
+
+**Botones de cierre:** Escribime por WhatsApp · Ver cómo son las consultas (→ `index.html#consultas`)
 
 **Texto alternativo de la foto:** Retrato de Carolina Bustos, licenciada en Nutrición.

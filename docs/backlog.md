@@ -1,65 +1,71 @@
+## Para retomar en otra conversación
+
+- **Qué es:** demo conceptual de una landing para una nutricionista ficticia (Lic. Carolina Bustos). HTML, CSS y JS vanilla, sin build. Reglas de trabajo en `CLAUDE.md`.
+- **Fuentes:** objetivos y decisiones en [brief.md](brief.md); textos aprobados en [contenido.md](contenido.md) (el HTML se arma desde ahí, sin inventar contenido); estilo en la guía aprobada [styleguides/bc-ficha-trazo/](../styleguides/bc-ficha-trazo/).
+- **Estado:** las tres páginas están construidas (`index.html`, `preguntas-frecuentes.html`, `sobre-mi.html`). Falta revisarlas en el navegador con [checklists.md](checklists.md) y resolver los Pendientes de abajo.
+- **Cómo se trabaja:** una sección por vez, con revisión entre cada una; plan previo si el cambio toca más de un archivo; todo valor visual en tokens de `:root`; los commits los hace el usuario.
+
 ## Estado actual
 
 Última actualización: 31/10/2026.
 
-Todavía no hay código del sitio (`index.html`, `css/styles.css`, `js/main.js`). Lo hecho hasta ahora es documentación y la exploración visual.
+### Archivos
 
-### Documentación
+- `index.html`: landing. Secciones: aviso conceptual, header, hero, Para quién es, Cómo trabajo, Sobre mí, Consultas (`#consultas`), Primera consulta (`#primera-consulta`), Testimonios, Preguntas frecuentes (4), Contacto, guía de celiaquía (oculta con `hidden`) y footer.
+- `preguntas-frecuentes.html`: las 13 preguntas, en 2 columnas desde 48rem.
+- `sobre-mi.html`: hero, bloque con retrato y texto, Formación y cierre.
+- `css/styles.css`: tokens y componentes de la guía, más los agregados de abajo.
+- `js/main.js`: solo el slider de testimonios.
 
-- **[brief.md](brief.md)** revisado y actualizado con las decisiones de la revisión del brief (ver más abajo).
-- **[contenido.md](contenido.md)** con los textos de todas las secciones, ya ajustados a esas decisiones. Es la fuente de los textos: el HTML se arma desde ahí.
+### Decisiones de la construcción (31/10/2026)
 
-### Decisiones tomadas en la revisión del brief
+- **Hero de la home sin foto,** con la ilustración "Consulta". La franja lleva título, matrícula y modalidad, sin días.
+- **Tipografías desde Google Fonts.**
+- **Tarjetas de 4** (Para quién es, Cómo trabajo) en 2 × 2 en escritorio.
+- **Bandas de fondo:** para que la home no se lea como una sola superficie, tres envoltorios `.banda` (crema `--color-banda`, esquinas redondeadas) agrupan Para quién es, Consultas + Primera consulta y Contacto. El resto queda en hueso.
+- **Ilustraciones de trazo:** consulta (hero), recorrido (Cómo trabajo), conversación (Primera consulta), taza (Contacto), pregunta (preguntas frecuentes) y libro (sobre mí).
+- **Testimonios en slider:** sin JS se desliza (scroll-snap). Con JS suma Anterior / Siguiente, "1 de 3" y avance automático cada 7 s (`--slider-intervalo`) con botón Pausar (WCAG 2.2.2). Se pausa con mouse o foco encima, se detiene si la persona navega y no arranca con `prefers-reduced-motion`.
+- **Preguntas frecuentes:** en la home solo 4 (obra social, cómo se paga, dejar de comer muchas cosas, online desde otro país) y el botón a `preguntas-frecuentes.html`. Las 4 están repetidas: si cambia una respuesta, se cambia en las dos páginas.
+- **Mapa:** iframe de Google Maps centrado en barrio Echesortu, sin marcar dirección (la dirección es ficticia).
+- **Instagram** en el footer como texto, sin enlace, para no apuntar a una cuenta ajena.
+- **Páginas interiores:** mismo aviso, header y footer que la home. El menú va a `index.html#…`, salvo "Sobre mí" y "Preguntas frecuentes", que van a sus páginas (`aria-current="page"` en la propia). Cabecera `.pagina__cabecera`: título a la izquierda, ilustración a la derecha.
+- **Tono:** "comer tranquila" se reservaba para el hero, pero el h2 del bloque con retrato de `sobre-mi.html` también es "Nutrición para que vuelvas a comer tranquila" (pedido el 31/10/2026; falta confirmarlo con la clienta).
 
-- **Alcance de demo:** no se implementan métricas, analítica ni trabajo de posicionamiento en Google. Solo lo básico: título, descripción y HTML semántico.
-- **Orden de secciones:** Header → Hero → Para quién es → Cómo trabajo (nueva) → Sobre mí (breve) → Consultas → Primera consulta → Testimonios → Preguntas frecuentes → Contacto → Footer.
-- **Hero:** título, especialidad, matrícula, modalidad y WhatsApp. Nada más.
-- **Precios:** solo en Consultas. "Qué traer" solo en Primera consulta. Las preguntas frecuentes remiten con enlaces a `#consultas` y `#primera-consulta`: esas secciones deben llevar esos `id`.
-- **WhatsApp:** mensaje precargado como plantilla para completar ("Modalidad: … / Motivo de consulta: …"). Sin plazo de respuesta: "lo antes posible".
-- **Mail:** solo para profesionales de la salud (`profesionales@carolinabustos.example`, ficticio). Los pacientes contactan solo por WhatsApp.
-- **Instagram:** solo en el footer.
-- **Consultorio:** se publican la dirección (ficticia) y el mapa.
-- **Online:** martes y jueves, igual que el presencial. Desde el exterior, en USD por PayPal.
-- **Niños:** sí se atienden, con un adulto presente.
-- **Tono:** "panza" en títulos de tarjetas y preguntas frecuentes; "abdomen" en el resto. "Comer tranquila" solo en el hero; en los textos para celíacos, familias y médicos, versión neutra.
-- **Sobre mí:** versión breve en la home. Más adelante, una página `sobre-mi.html` con el texto completo (ya redactado al final de contenido.md). El enlace desde la home se muestra solo cuando esa página exista.
-- **Imágenes:** fotos de ejemplo, ilustraciones SVG propias y stock bien seleccionado. Nada de ensaladas, bowls, hojas, frutas, cintas métricas ni estetoscopios.
-- **Respuestas inventadas (ficticias):** cancelación con 24 horas de aviso; se le puede escribir entre consultas con dudas puntuales.
+### Agregados a la guía
 
-### Exploración visual
+- **Clases:** `.salto`, `.banda`, `.bloque__contenido`, `.lista`, `.slider*`, `.mapa`, `.contacto__datos`, `.faq--columnas`, `.pagina__cabecera`, `.pagina__ilustracion`, `[hidden]`. Las `sg-*` de estructura pasaron a `.contenedor`, `.seccion`, `.seccion__titulo` y `.seccion__intro`.
+- **Tokens:** `--color-banda`, `--alto-header`, `--ilustracion-mediana`, `--mapa-proporcion`, `--opacidad-inactivo`, `--slider-intervalo`.
 
-Se propusieron tres direcciones (A Sobremesa, B Ficha clara, C Trazo explicativo) y se armaron dos guías de estilo para comparar: A y B + C. El 31/10/2026 se eligió y aprobó **B + C · Ficha clara con trazo**, y se eliminó la guía A.
+### Decisiones de la revisión del brief
 
-- **Guía aprobada:** [styleguides/bc-ficha-trazo/](../styleguides/bc-ficha-trazo/). Hueso y oliva, Source Serif 4 + Source Sans 3, etiquetas en versalitas, grilla asimétrica, hero sin foto e ilustraciones SVG de una línea terracota.
-- Para verla: abrir `styleguide.html` en el navegador (mejor en Chrome o Edge; ver notas técnicas).
+- **Alcance de demo:** sin métricas, analítica ni posicionamiento. Solo título, descripción y HTML semántico.
+- **Precios** solo en Consultas; **"qué traer"** solo en Primera consulta. Las preguntas frecuentes enlazan a esas secciones.
+- **WhatsApp** con mensaje precargado como plantilla ("Modalidad: … / Motivo de consulta: …"). Sin plazo de respuesta: "lo antes posible". No se ofrecen llamadas.
+- **Mail** solo para profesionales de la salud (ficticio). **Instagram** solo en el footer.
+- **Online:** martes y jueves, igual que el presencial. Desde el exterior, USD por PayPal. Se atiende a chicos, con un adulto presente.
+- **Tono:** voseo; "panza" en títulos de tarjetas y preguntas frecuentes, "abdomen" en el resto.
+- **Imágenes:** nada de ensaladas, bowls, hojas, frutas, cintas métricas ni estetoscopios.
+- **Respuestas ficticias:** cancelación con 24 horas de aviso; se le puede escribir entre consultas con dudas puntuales.
 
-Ajustes aplicados antes de aprobarla:
+### Notas técnicas
 
-- Estilo más suave: radios más grandes (nuevo `--radius-lg`), botones y navegación en forma de píldora, y una sombra muy leve (`--sombra-ficha`).
-- Sin filetes: las secciones se separan con aire y cada elemento pasa a ser una ficha redondeada (clase `.tarjeta`) en Para quién es, Cómo trabajo, Consultas, Primera consulta (con número en círculo oliva), Testimonio (con comilla terracota) y Preguntas frecuentes.
-- Header en banda salvia de ancho completo, fijo arriba (`position: sticky`). Footer en banda oscura con las esquinas de arriba redondeadas, con tokens propios (`--color-oscuro-*`) que cumplen AAA.
-- Hero en dos columnas: el texto y un panel con la ilustración "Consulta" (boceto SVG de trazo: dos personas en un escritorio, con una taza). Los datos profesionales pasan a una franja debajo. La taza queda sin asignar.
-- La ficha pone etiqueta y dato lado a lado según el ancho de su caja (container query), así en tarjetas angostas quedan apilados.
-
-La guía tiene todos sus tokens (color, tipografía, espaciado, radios, sombras, movimiento) en `:root` de `styleguide.css`, con el contraste calculado de cada color.
-
-### Notas técnicas para retomar
-
-- **Animaciones sin JS:** "aparecer al entrar en pantalla" usa animaciones de CSS ligadas al scroll (`animation-timeline: view()`). En Firefox no hay soporte: los bloques se ven sin animación. La altura animada de las preguntas frecuentes usa `::details-content` + `interpolate-size` (solo Chromium). Todo se desactiva con `prefers-reduced-motion`.
-- **Ilustraciones SVG:** cada trazo lleva `pathLength="1"` para animarlo con `stroke-dashoffset` de 1 a 0. El grosor va en unidades del SVG, no en rem: `--trazo-grosor` para los íconos (viewBox de 120) y `--trazo-grosor-escena` para la escena del hero (viewBox de 240).
-- **Un solo h1:** en la guía de estilo, el título del hero es un párrafo con estilo de h1. En `index.html` debe ser el h1.
-- **Tipografías:** la guía de estilo las carga desde Google Fonts. Para la web final, la propuesta es alojarlas en `assets/fonts/` (falta aprobarlo).
-- **Contraste:** se calculó con la fórmula WCAG 2.x. Los colores "trazo" y "filete" no se usan nunca para texto.
+- **Animaciones sin JS:** la aparición al entrar en pantalla usa `animation-timeline: view()` (sin soporte en Firefox: se ve sin animación). La altura animada de las preguntas usa `::details-content` + `interpolate-size` (solo Chromium). Todo se desactiva con `prefers-reduced-motion`. Dentro del slider la aparición está desactivada, porque las fichas podían quedar invisibles.
+- **Ilustraciones SVG:** `aria-hidden="true"`, `pathLength="1"` en cada trazo, viewBox de 120 (íconos) o 240 (escena del hero). El grosor va en unidades del SVG (`--trazo-grosor`, `--trazo-grosor-escena`).
+- **Header fijo y anclas:** `scroll-padding-top` usa `--alto-header` (12rem en móvil, 6rem desde 56rem). Si cambia la navegación, revisar ese valor.
+- **Contraste:** calculado con WCAG 2.x. "Trazo" y "filete" nunca se usan para texto. Sobre la banda crema: texto 12,27:1, secundario 5,76:1, acento 5,25:1.
+- **Header y footer repetidos** en las tres páginas: si cambia la navegación, el WhatsApp o un dato del footer, hay que editar los tres archivos.
 
 ## Pendientes
 
-1. **Decidir cómo se cargan las tipografías** en la web final: Google Fonts o alojadas en `assets/fonts/`.
-2. **Pasar los tokens de la guía B + C a `css/styles.css`** como base del sitio.
-3. **Construir `index.html` sección por sección**, en el orden de arriba, con los textos de [contenido.md](contenido.md). Incluir:
-   - el aviso visible de proyecto conceptual;
-   - los `id` `consultas` y `primera-consulta`;
-   - el enlace de WhatsApp con la plantilla precargada;
-   - la sección oculta de la guía de celiaquía (que no se vea nada).
-4. **Ilustraciones:** terminar de definir cuáles van en cada sección. Hoy hay cuatro: consulta (hero), recorrido (Cómo trabajo), conversación (Primera consulta) y taza (sin asignar).
-5. **Más adelante:** página `sobre-mi.html` y, al publicarla, el enlace "Conocé más sobre mí" en la home.
+1. **Menú hamburguesa en móvil.** Hoy los 7 enlaces ocupan unas 3 líneas y el header fijo queda muy alto en 375 px. Tiene que funcionar sin JS (por ejemplo, con `<details>`, o con la navegación visible si no hay JS) y ser accesible: botón con `aria-expanded`, foco visible y cierre con Escape. Al terminar, ajustar `--alto-header` y aplicarlo en las tres páginas.
+2. **Revisar las tres páginas** con [checklists.md](checklists.md): 375, 768 y 1280 px; teclado; `prefers-reduced-motion`; consola sin errores; enlace de WhatsApp en un móvil real.
+3. **`[PENDIENTE]` en el código:**
+   - Retrato de la profesional (home y `sobre-mi.html`).
+   - PDF de la guía de celiaquía y si será gratuita o paga.
+   - Enlace real de Instagram.
+   - Texto de cierre de `preguntas-frecuentes.html`.
+   - Descripciones de `preguntas-frecuentes.html` y `sobre-mi.html`.
+   - Lista completa de formación.
+4. **Confirmar con la clienta** el título del bloque con retrato de `sobre-mi.html` (ver Tono).
+5. **Opcional:** usar `.banda` en las páginas interiores (por ejemplo, para destacar Formación en `sobre-mi.html`).
 6. **Cuando la web esté lista:** decidir si se borra la guía de estilo o se deja fuera del deploy (tiene `noindex`).
