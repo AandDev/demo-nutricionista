@@ -3,6 +3,60 @@
    Solo mejora progresiva: sin JS la página funciona igual.
    ========================================================= */
 
+/* ---------- Menú en móvil ----------
+   Sin JS la lista de secciones se ve siempre. Acá se muestra el botón
+   de menú y se agrega .con-js al <html>, que es lo que hace que el CSS
+   pliegue la lista y convierta "Escribime" en el botón flotante de WhatsApp. La clase se agrega solo si el menú existe, para que
+   una página sin botón nunca quede con la navegación oculta.
+   Se cierra con Escape, al elegir un enlace, al hacer clic fuera o al
+   pasar el foco fuera del menú. */
+
+const menu = document.querySelector("[data-menu]");
+const menuBoton = menu?.querySelector("[data-menu-boton]");
+
+if (menu && menuBoton) {
+  // Mismo corte que en css/styles.css: desde ahí la lista no se pliega.
+  const escritorio = window.matchMedia("(min-width: 56rem)");
+
+  const estaAbierto = () => menuBoton.getAttribute("aria-expanded") === "true";
+
+  const cerrar = ({ devolverFoco = false } = {}) => {
+    if (!estaAbierto()) return;
+    menuBoton.setAttribute("aria-expanded", "false");
+    if (devolverFoco) menuBoton.focus();
+  };
+
+  menuBoton.addEventListener("click", () => {
+    menuBoton.setAttribute("aria-expanded", String(!estaAbierto()));
+  });
+
+  // Escape devuelve el foco al botón solo si estaba dentro del menú.
+  document.addEventListener("keydown", (evento) => {
+    if (evento.key === "Escape" && estaAbierto()) {
+      cerrar({ devolverFoco: menu.contains(document.activeElement) });
+    }
+  });
+
+  menu.addEventListener("click", (evento) => {
+    if (evento.target.closest("a")) cerrar();
+  });
+
+  document.addEventListener("click", (evento) => {
+    if (!menu.contains(evento.target)) cerrar();
+  });
+
+  // Solo si el foco va a otro elemento: en Safari un clic no mueve el foco
+  // (relatedTarget queda en null) y cerraría el menú antes de seguir el enlace.
+  menu.addEventListener("focusout", (evento) => {
+    if (evento.relatedTarget && !menu.contains(evento.relatedTarget)) cerrar();
+  });
+
+  escritorio.addEventListener("change", () => cerrar());
+
+  menuBoton.hidden = false;
+  document.documentElement.classList.add("con-js");
+}
+
 /* ---------- Slider ----------
    La pista ya se desliza con CSS (scroll-snap). Acá se suman:
    - los botones Anterior / Siguiente y el "1 de 3";

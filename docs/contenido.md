@@ -323,7 +323,7 @@ Armé una guía con lo básico para los primeros días: qué revisar en tu cocin
 
 **Contenido:** las 13 preguntas de la sección [Preguntas frecuentes](#preguntas-frecuentes), con los mismos textos.
 
-**Cierre:** [PENDIENTE: texto de cierre, por ejemplo una invitación a escribir por WhatsApp si la duda no está en la lista] y botón **Escribime por WhatsApp** con el mensaje precargado.
+**Cierre:** "¿Tu duda no está en la lista? Escribime por WhatsApp y la charlamos. Te respondo lo antes posible, apenas termino de atender." (texto genérico del 01/11/2026, a confirmar con la clienta) y botón **Escribime por WhatsApp** con el mensaje precargado.
 
 **Estructura compartida con la home:** aviso de proyecto conceptual, header (los enlaces de navegación apuntan a `index.html#…`) y footer.
 

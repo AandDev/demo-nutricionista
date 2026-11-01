@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Página no encontrada | Lic. Carolina Bustos</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#E4E8DC">
+  <!-- Rutas absolutas (empiezan con /): Vercel y Netlify muestran esta página
+       en cualquier dirección que no exista, también en subcarpetas como
+       /a/b/c, y una ruta relativa como css/styles.css no se encontraría.
+       Para verla en local hace falta un servidor en la raíz del proyecto. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="/js/main.js" defer></script>
+</head>
+<body>
+
+  <a class="salto" href="#contenido">Ir al contenido</a>
+
+  <p class="aviso-conceptual">
+    Proyecto conceptual: esta web es un demo. La profesional, su matrícula, los testimonios, los precios y los datos de contacto son ficticios.
+  </p>
+
+  <!-- Header igual al de la home; los enlaces vuelven a sus secciones. -->
+  <header class="site-header">
+    <div class="contenedor site-header__contenido">
+      <p class="site-header__marca">
+        <a class="site-header__enlace" href="/">
+          Lic. Carolina Bustos
+          <span class="site-header__bajada">Nutrición · Salud digestiva</span>
+        </a>
+      </p>
+      <nav class="site-nav" aria-label="Secciones" data-menu>
+        <!-- Botón de menú para móvil: lo muestra js/main.js. Sin JS, la lista se ve siempre. -->
+        <button class="site-nav__boton" type="button" aria-label="Menú" aria-expanded="false" aria-controls="menu-secciones" data-menu-boton hidden>
+          <svg class="site-nav__icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <line x1="4" y1="6" x2="20" y2="6"/>
+            <line x1="4" y1="12" x2="20" y2="12"/>
+            <line x1="4" y1="18" x2="20" y2="18"/>
+          </svg>
+        </button>
+        <ul class="site-nav__lista" id="menu-secciones">
+          <li><a class="site-nav__enlace" href="/index.html#para-quien-es">Para quién es</a></li>
+          <li><a class="site-nav__enlace" href="/index.html#como-trabajo">Cómo trabajo</a></li>
+          <li><a class="site-nav__enlace" href="/sobre-mi.html">Sobre mí</a></li>
+          <li><a class="site-nav__enlace" href="/index.html#consultas">Consultas</a></li>
+          <li><a class="site-nav__enlace" href="/preguntas-frecuentes.html">Preguntas frecuentes</a></li>
+          <li><a class="site-nav__enlace" href="/index.html#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+      <!-- En móvil con JS, este enlace pasa a ser el botón flotante de WhatsApp (ver css/styles.css). -->
+      <a class="boton boton--principal boton--chico site-header__whatsapp" href="https://wa.me/5493410000000?text=Hola%2C%20Carolina.%20Te%20escribo%20desde%20la%20web.%0AModalidad%20(presencial%20u%20online)%3A%20%0AMotivo%20de%20consulta%3A%20" target="_blank" rel="noopener">
+        <svg class="site-header__whatsapp-icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+        </svg>
+        <span class="site-header__whatsapp-texto">Escribime<span class="visualmente-oculto"> por WhatsApp</span></span>
+      </a>
+    </div>
+  </header>
+
+  <main id="contenido">
+
+    <!-- ============ ERROR 404 ============ -->
+
+    <section class="seccion" aria-labelledby="error-titulo">
+      <div class="contenedor">
+        <div class="pagina__cabecera">
+          <div>
+            <p class="etiqueta">Error 404</p>
+            <h1 class="hero__titulo" id="error-titulo">No encontramos esta página</h1>
+          </div>
+          <!-- Ilustración "Cartel": un poste con dos flechas, por el camino que no aparece -->
+          <svg class="trazo pagina__ilustracion" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+            <path pathLength="1" d="M60 24 V104"/>
+            <path pathLength="1" d="M42 104 H78"/>
+            <path pathLength="1" d="M60 34 H90 L100 44 L90 54 H60"/>
+            <path pathLength="1" d="M60 64 H30 L20 74 L30 84 H60"/>
+          </svg>
+        </div>
+        <p class="hero__bajada">Puede que la dirección esté mal escrita o que la página ya no exista. Desde la página de inicio podés encontrar todo lo que hay en el sitio.</p>
+        <div class="hero__acciones">
+          <a class="boton boton--principal" href="/">Ir a la página de inicio</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer igual al de la home -->
+  <footer class="site-footer">
+    <div class="contenedor site-footer__contenido">
+      <div>
+        <p class="site-footer__marca">Lic. Carolina Bustos</p>
+        <p>Licenciada en Nutrición · M.P. N.º 0000 (ficticia)</p>
+        <p>Salud digestiva · Presencial en Rosario y online</p>
+        <!-- [PENDIENTE: enlace a la cuenta real de Instagram] -->
+        <p>Instagram: @carolinabustos.demo (ficticio)</p>
+      </div>
+      <div class="site-footer__legal">
+        <p>La información de este sitio es orientativa y no reemplaza la consulta con un profesional de la salud.</p>
+        <p>Proyecto conceptual: todos los datos de esta web son ficticios.</p>
+        <p>© 2026 Carolina Bustos (ficticio)</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

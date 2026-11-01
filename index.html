@@ -23,21 +23,36 @@
   <header class="site-header">
     <div class="contenedor site-header__contenido">
       <p class="site-header__marca">
-        Lic. Carolina Bustos
-        <span class="site-header__bajada">Nutrición · Salud digestiva</span>
+        <a class="site-header__enlace" href="index.html" aria-current="page">
+          Lic. Carolina Bustos
+          <span class="site-header__bajada">Nutrición · Salud digestiva</span>
+        </a>
       </p>
-      <nav class="site-nav" aria-label="Secciones">
-        <ul class="site-nav__lista">
+      <nav class="site-nav" aria-label="Secciones" data-menu>
+        <!-- Botón de menú para móvil: lo muestra js/main.js. Sin JS, la lista se ve siempre. -->
+        <button class="site-nav__boton" type="button" aria-label="Menú" aria-expanded="false" aria-controls="menu-secciones" data-menu-boton hidden>
+          <svg class="site-nav__icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <line x1="4" y1="6" x2="20" y2="6"/>
+            <line x1="4" y1="12" x2="20" y2="12"/>
+            <line x1="4" y1="18" x2="20" y2="18"/>
+          </svg>
+        </button>
+        <ul class="site-nav__lista" id="menu-secciones">
           <li><a class="site-nav__enlace" href="#para-quien-es">Para quién es</a></li>
           <li><a class="site-nav__enlace" href="#como-trabajo">Cómo trabajo</a></li>
           <li><a class="site-nav__enlace" href="#sobre-mi">Sobre mí</a></li>
           <li><a class="site-nav__enlace" href="#consultas">Consultas</a></li>
-          <li><a class="site-nav__enlace" href="#primera-consulta">Primera consulta</a></li>
           <li><a class="site-nav__enlace" href="#preguntas-frecuentes">Preguntas frecuentes</a></li>
           <li><a class="site-nav__enlace" href="#contacto">Contacto</a></li>
         </ul>
       </nav>
-      <a class="boton boton--principal boton--chico" href="https://wa.me/5493410000000?text=Hola%2C%20Carolina.%20Te%20escribo%20desde%20la%20web.%0AModalidad%20(presencial%20u%20online)%3A%20%0AMotivo%20de%20consulta%3A%20" target="_blank" rel="noopener">Escribime</a>
+      <!-- En móvil con JS, este enlace pasa a ser el botón flotante de WhatsApp (ver css/styles.css). -->
+      <a class="boton boton--principal boton--chico site-header__whatsapp" href="https://wa.me/5493410000000?text=Hola%2C%20Carolina.%20Te%20escribo%20desde%20la%20web.%0AModalidad%20(presencial%20u%20online)%3A%20%0AMotivo%20de%20consulta%3A%20" target="_blank" rel="noopener">
+        <svg class="site-header__whatsapp-icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+        </svg>
+        <span class="site-header__whatsapp-texto">Escribime<span class="visualmente-oculto"> por WhatsApp</span></span>
+      </a>
     </div>
   </header>
 
@@ -176,11 +191,9 @@
           <h2 class="seccion__titulo" id="sobre-mi-titulo">Sobre mí</h2>
         </div>
         <div class="sobre-mi">
-          <!-- Reemplazar por la foto: <img> con alt "Retrato de Carolina Bustos,
-               licenciada en Nutrición.", width, height y loading="lazy". -->
-          <div class="foto-pendiente">
-            <p>[PENDIENTE: retrato de la profesional]</p>
-          </div>
+          <!-- Foto de ejemplo (proyecto conceptual). Archivo: assets/img/retrato-carolina-bustos.jpg,
+               vertical 4:5, 800 × 1000 px. Mientras no exista, se ve el texto alternativo. -->
+          <img class="retrato" src="assets/img/retrato-carolina-bustos.jpg" alt="Retrato de Carolina Bustos, licenciada en Nutrición." width="800" height="1000" loading="lazy" decoding="async">
           <div class="sobre-mi__texto">
             <h3 class="sobre-mi__nombre">Lic. Carolina Bustos</h3>
             <p>Soy licenciada en Nutrición y hace nueve años que acompaño a personas en su alimentación. Hoy me dedico casi por completo a la salud digestiva: me tomo el tiempo de escuchar y de explicar las cosas de forma simple.</p>
@@ -211,6 +224,15 @@
         <div class="bloque__cabecera">
           <h2 class="seccion__titulo" id="consultas-titulo">Consultas</h2>
           <p class="seccion__intro">Atiendo en forma presencial en Rosario y también online. En las dos modalidades la consulta es la misma: tiempo para escucharte, explicaciones claras y una propuesta pensada para tu día a día.</p>
+          <!-- Ilustración "Agenda": calendario con dos días marcados (martes y jueves) -->
+          <svg class="trazo bloque__ilustracion" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+            <path pathLength="1" d="M24 26 H96 A8 8 0 0 1 104 34 V96 A8 8 0 0 1 96 104 H24 A8 8 0 0 1 16 96 V34 A8 8 0 0 1 24 26 Z"/>
+            <path pathLength="1" d="M16 44 H104"/>
+            <path pathLength="1" d="M38 18 V32 M82 18 V32"/>
+            <path pathLength="1" d="M28 64 H32 M43 64 H47 M58 64 H62 M73 64 H77 M88 64 H92 M28 86 H32 M43 86 H47 M58 86 H62 M73 86 H77 M88 86 H92"/>
+            <circle pathLength="1" cx="45" cy="64" r="8"/>
+            <circle pathLength="1" cx="75" cy="64" r="8"/>
+          </svg>
         </div>
         <div class="bloque__contenido">
           <div class="consultas">
@@ -401,6 +423,12 @@
       <div class="contenedor bloque">
         <div class="bloque__cabecera">
           <h2 class="seccion__titulo" id="preguntas-frecuentes-titulo">Preguntas frecuentes</h2>
+          <!-- Ilustración "Pregunta": la misma de preguntas-frecuentes.html -->
+          <svg class="trazo bloque__ilustracion" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+            <path pathLength="1" d="M24 24 H96 A10 10 0 0 1 106 34 V78 A10 10 0 0 1 96 88 H52 L36 102 V88 H24 A10 10 0 0 1 14 78 V34 A10 10 0 0 1 24 24 Z"/>
+            <path pathLength="1" d="M50 46 A10 10 0 1 1 64 55 C61 57 60 59 60 64"/>
+            <circle pathLength="1" cx="60" cy="74" r="2"/>
+          </svg>
         </div>
         <div class="bloque__contenido">
           <div class="faq">
@@ -440,14 +468,6 @@
           <p>
             <a class="boton boton--principal" href="https://wa.me/5493410000000?text=Hola%2C%20Carolina.%20Te%20escribo%20desde%20la%20web.%0AModalidad%20(presencial%20u%20online)%3A%20%0AMotivo%20de%20consulta%3A%20" target="_blank" rel="noopener">Escribime por WhatsApp</a>
           </p>
-          <!-- Ilustración "Taza": "como cuando alguien te recibe con un té" -->
-          <svg class="trazo bloque__ilustracion" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
-            <path pathLength="1" d="M28 52 H84 V70 A26 26 0 0 1 58 96 H54 A26 26 0 0 1 28 70 Z"/>
-            <path pathLength="1" d="M84 58 H90 A10 10 0 0 1 90 78 H82"/>
-            <path pathLength="1" d="M18 104 H96"/>
-            <path pathLength="1" d="M46 40 C40 32 52 28 46 20"/>
-            <path pathLength="1" d="M64 40 C58 32 70 28 64 20"/>
-          </svg>
         </div>
         <div class="bloque__contenido">
           <div class="contacto__datos tarjeta">
@@ -470,10 +490,13 @@
               </div>
             </dl>
           </div>
-          <!-- Mapa del barrio, sin marcar una dirección: la del consultorio es
-               ficticia. En un proyecto real, usar la dirección exacta. -->
+        </div>
+        <!-- Mapa del barrio en una fila propia, a todo el ancho, sin marcar una
+             dirección: la del consultorio es ficticia. En un proyecto real,
+             usar la dirección exacta. -->
+        <div class="contacto__mapa">
           <div class="mapa">
-            <iframe src="https://www.google.com/maps?q=Echesortu,+Rosario,+Santa+Fe&amp;output=embed" title="Mapa de barrio Echesortu, Rosario" width="800" height="600" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe src="https://www.google.com/maps?q=Echesortu,+Rosario,+Santa+Fe&amp;output=embed" title="Mapa de barrio Echesortu, Rosario" width="1200" height="400" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
           <p class="aclaracion">El mapa muestra el barrio Echesortu. La dirección del consultorio es ficticia.</p>
         </div>

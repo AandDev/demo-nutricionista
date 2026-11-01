@@ -73,14 +73,35 @@
   --ancho-max: 72rem;
   --ancho-lectura: 38rem;
   --ancho-etiqueta: 9rem;
+  --foto-ancho-max: 24rem; /* retrato de Sobre mí: tope en tablet */
+
+  /* Aire arriba y abajo de cada sección. La versión compacta se usa en
+     móvil en las páginas con .pagina--compacta. */
+  --seccion-espacio: var(--space-8);
+  --seccion-espacio-compacto: var(--space-6);
   --borde-fino: 0.0625rem;
   --borde-foco: 0.1875rem;
   --tamano-numero: 2.5rem;
 
   /* Alto aproximado del header fijo: las anclas de la navegación dejan
-     ese espacio arriba para que el título no quede tapado. En móvil la
-     navegación ocupa varias líneas; desde 56rem va en una sola fila. */
+     ese espacio arriba para que el título no quede tapado. En móvil sin JS
+     la navegación ocupa varias líneas; con JS se pliega en el menú y el
+     header ocupa hasta dos filas; desde 56rem va en una sola fila. */
   --alto-header: 12rem;
+  --alto-header-con-menu: 6rem;
+  --alto-header-escritorio: 6rem;
+
+  /* Área mínima para tocar con el dedo (botones de solo ícono) */
+  --area-tactil: 2.75rem;
+
+  /* Ícono del botón de menú. El grosor va en unidades del SVG (viewBox 24). */
+  --icono-menu-tamano: 1.5rem;
+  --icono-menu-grosor: 2;
+
+  /* Botón flotante de WhatsApp (móvil con JS) */
+  --flotante-tamano: 3.5rem;
+  --flotante-icono: 1.75rem;
+  --flotante-margen: 1rem;
 
   /* Ilustraciones. El grosor va en unidades del SVG, no en rem, para que
      escale junto con el dibujo. Los íconos usan un viewBox de 120; la escena
@@ -90,13 +111,16 @@
   --trazo-grosor-escena: 1.6;
   --ilustracion-chica: 7rem;
   --ilustracion-mediana: 10rem;
+  --ilustracion-grande: 11rem; /* columna del título en las secciones de la home */
   --ilustracion-escena-max: 30rem;
 
   /* Botón sin efecto (primera o última ficha del slider) */
   --opacidad-inactivo: 0.45;
 
   /* Mapa del consultorio */
-  --mapa-proporcion: 4 / 3;
+  /* Rectangular y bajo: más ancho todavía desde 56rem, donde ocupa toda la fila */
+  --mapa-proporcion: 16 / 9;
+  --mapa-proporcion-ancha: 3 / 1;
 
   /* Movimiento */
   --duracion-corta: 200ms;
@@ -107,9 +131,15 @@
   --slider-intervalo: 7s; /* lo lee js/main.js para el avance automático */
 }
 
+/* .con-js lo agrega js/main.js al <html> cuando el menú está listo */
+.con-js {
+  --alto-header: var(--alto-header-con-menu);
+}
+
 @media (min-width: 56rem) {
-  :root {
-    --alto-header: 6rem;
+  :root,
+  .con-js {
+    --alto-header: var(--alto-header-escritorio);
   }
 }
 
@@ -160,6 +190,16 @@ ol {
 /* Que ningún display (flex, inline-flex…) le gane al atributo hidden */
 [hidden] {
   display: none !important;
+}
+
+/* Fuera de la vista, pero lo leen los lectores de pantalla */
+.visualmente-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 :focus-visible {
@@ -218,7 +258,20 @@ ol {
 
 /* Las secciones se separan solo con aire, sin filetes */
 .seccion {
-  padding-block: var(--space-8);
+  padding-block: var(--seccion-espacio);
+}
+
+/* Página compacta (sobre-mi.html): en móvil, menos aire entre secciones,
+   porque son cortas y sin bandas de color que las separen. Desde 56rem
+   vuelve al espacio normal. */
+.pagina--compacta .seccion {
+  padding-block: var(--seccion-espacio-compacto);
+}
+
+@media (min-width: 56rem) {
+  .pagina--compacta .seccion {
+    padding-block: var(--seccion-espacio);
+  }
 }
 
 /* Banda: fondo crema de ancho completo, con las esquinas redondeadas como
@@ -253,9 +306,10 @@ ol {
   align-content: start;
 }
 
+/* Centrada en la columna del título, con aire arriba */
 .bloque__ilustracion {
-  width: var(--ilustracion-chica);
-  margin-top: var(--space-4);
+  width: var(--ilustracion-grande);
+  margin: var(--space-6) auto 0;
 }
 
 /* ---------- Aviso de proyecto conceptual ---------- */
@@ -378,6 +432,20 @@ ol {
   line-height: var(--lh-titulos);
 }
 
+/* La marca lleva a la home: se ve igual que antes, sin subrayado.
+   Al pasar el mouse, el nombre toma el color de acento. */
+.site-header__enlace {
+  display: grid;
+  color: inherit;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: color var(--duracion-corta) var(--curva);
+}
+
+.site-header__enlace:hover {
+  color: var(--color-acento);
+}
+
 .site-header__bajada {
   color: var(--color-texto-secundario);
   font-family: var(--font-texto);
@@ -410,6 +478,142 @@ ol {
 
 .site-nav__enlace:hover {
   background-color: var(--color-fondo);
+}
+
+/* ---------- Menú plegable en móvil (solo con JS) ----------
+   El botón (solo el ícono; el nombre "Menú" va en aria-label) queda a la
+   derecha de la marca y la lista se abre como un panel debajo del header,
+   sobre el contenido, así el header no cambia de alto.
+   El estado sale de aria-expanded: no hay una clase aparte que sincronizar. */
+
+.site-nav__boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--area-tactil);
+  height: var(--area-tactil);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background-color: transparent;
+  color: var(--color-texto);
+  cursor: pointer;
+  transition: background-color var(--duracion-corta) var(--curva);
+}
+
+.site-nav__boton:hover {
+  background-color: var(--color-fondo);
+}
+
+.site-nav__icono {
+  width: var(--icono-menu-tamano);
+  height: var(--icono-menu-tamano);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: var(--icono-menu-grosor);
+  stroke-linecap: round;
+}
+
+.site-nav__icono line {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Abierto, las tres líneas forman una X. Los 6px son unidades del SVG:
+   la distancia entre cada línea y la del medio. */
+.site-nav__boton[aria-expanded="true"] .site-nav__icono line:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.site-nav__boton[aria-expanded="true"] .site-nav__icono line:nth-child(2) {
+  opacity: 0;
+}
+
+.site-nav__boton[aria-expanded="true"] .site-nav__icono line:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* La marca empuja el botón de menú a la derecha */
+.con-js .site-header__marca {
+  margin-inline-end: auto;
+}
+
+.con-js .site-nav {
+  order: 0;
+  width: auto;
+}
+
+/* visibility (y no display) para poder animar la apertura. Oculta,
+   la lista tampoco recibe el foco ni la leen los lectores de pantalla. */
+.con-js .site-nav__lista {
+  position: absolute;
+  top: 100%;
+  inset-inline: 0;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-5) var(--space-5);
+  border-top: var(--borde-fino) solid var(--color-filete);
+  border-end-start-radius: var(--radius-lg);
+  border-end-end-radius: var(--radius-lg);
+  background-color: var(--color-superficie);
+  box-shadow: var(--sombra-header);
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(calc(-1 * var(--space-2)));
+}
+
+.con-js .site-nav__boton[aria-expanded="true"] + .site-nav__lista {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+}
+
+/* En el panel, enlaces a lo ancho y más altos: más fáciles de tocar */
+.con-js .site-nav__lista .site-nav__enlace {
+  display: block;
+  padding-block: var(--space-3);
+  font-size: var(--fs-base);
+}
+
+/* ---------- WhatsApp: "Escribime" del header / botón flotante ----------
+   Es un solo enlace. Sin JS, y con JS desde 60rem, es el botón "Escribime"
+   del header. Con JS y por debajo de 60rem sale del header y queda fijo
+   abajo a la derecha, solo con el ícono; el texto sigue para los lectores
+   de pantalla ("Escribime por WhatsApp"). */
+
+.site-header__whatsapp-icono {
+  display: none;
+  width: var(--flotante-icono);
+  height: var(--flotante-icono);
+  fill: currentColor;
+}
+
+.con-js .site-header__whatsapp {
+  position: fixed;
+  bottom: calc(var(--flotante-margen) + env(safe-area-inset-bottom, 0px));
+  right: calc(var(--flotante-margen) + env(safe-area-inset-right, 0px));
+  width: var(--flotante-tamano);
+  height: var(--flotante-tamano);
+  padding: 0;
+  box-shadow: var(--sombra-ficha);
+}
+
+.con-js .site-header__whatsapp-icono {
+  display: block;
+}
+
+.con-js .site-header__whatsapp-texto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Espacio extra al final para que el botón no tape lo último del footer */
+.con-js .site-footer {
+  padding-bottom: calc(var(--space-7) + var(--flotante-tamano) + var(--flotante-margen));
 }
 
 /* ---------- Hero ---------- */
@@ -492,8 +696,9 @@ ol {
   align-content: start;
 }
 
+/* Títulos de tarjeta en --fs-lg: con --fs-xl muchos ocupaban dos líneas */
 .situacion__titulo {
-  font-size: var(--fs-xl);
+  font-size: var(--fs-lg);
 }
 
 /* ---------- Principios ---------- */
@@ -510,7 +715,7 @@ ol {
 }
 
 .principio__titulo {
-  font-size: var(--fs-xl);
+  font-size: var(--fs-lg);
 }
 
 /* ---------- Consultas ---------- */
@@ -528,7 +733,7 @@ ol {
 
 .consulta__titulo {
   margin-bottom: var(--space-4);
-  font-size: var(--fs-xl);
+  font-size: var(--fs-lg);
 }
 
 .aclaracion {
@@ -569,7 +774,7 @@ ol {
 }
 
 .paso__titulo {
-  font-size: var(--fs-xl);
+  font-size: var(--fs-lg);
 }
 
 /* ---------- Lista con viñetas (la base quita las viñetas) ---------- */
@@ -602,18 +807,23 @@ ol {
   font-size: var(--fs-xl);
 }
 
-.foto-pendiente {
-  display: grid;
-  place-items: center;
+/* Retrato de Sobre mí. En móvil ocupa todo el ancho; en pantallas más
+   anchas, centrado y con tope (--foto-ancho-max). Desde 56rem lo limita la
+   columna de 13rem. object-fit: cover recorta sin deformar si la foto no es
+   exactamente 4:5. El fondo se ve mientras carga (o si falta el archivo,
+   junto con el texto alternativo). */
+.retrato {
+  display: block;
   aspect-ratio: 4 / 5;
-  max-width: 15rem;
-  padding: var(--space-5);
+  width: 100%;
+  max-width: var(--foto-ancho-max);
+  height: auto;
+  margin-inline: auto;
+  object-fit: cover;
   background-color: var(--color-superficie);
-  border: var(--borde-fino) dashed var(--color-filete);
   border-radius: var(--radius-lg);
   color: var(--color-texto-secundario);
   font-size: var(--fs-sm);
-  text-align: center;
 }
 
 /* ---------- Slider: una ficha por vez, deslizando en horizontal ----------
@@ -621,10 +831,11 @@ ol {
    agrega los botones. Todas las fichas toman la altura de la más alta,
    así la sección no salta al cambiar. */
 
+/* A todo el ancho de la columna, alineado con las tarjetas de las otras
+   secciones. El ancho de lectura se limita en el texto (.testimonio__cita). */
 .slider {
   display: grid;
   gap: var(--space-4);
-  max-width: var(--ancho-lectura);
 }
 
 /* El padding deja ver la sombra y el foco de las fichas, que el scroll
@@ -664,7 +875,6 @@ ol {
 
 .testimonio {
   position: relative;
-  max-width: var(--ancho-lectura);
   margin: 0;
 }
 
@@ -686,6 +896,7 @@ ol {
 }
 
 .testimonio__cita {
+  max-width: var(--ancho-lectura);
   margin: 0 0 var(--space-4);
   font-family: var(--font-titulos);
   font-size: var(--fs-xl);
@@ -704,10 +915,11 @@ ol {
 
 /* ---------- Preguntas frecuentes ---------- */
 
+/* A todo el ancho de la columna, como las demás tarjetas. El ancho de
+   lectura se limita en la respuesta (.faq__respuesta). */
 .faq {
   display: grid;
   gap: var(--space-3);
-  max-width: var(--ancho-lectura);
 }
 
 /* Doble clase para ganarle al padding de .tarjeta en todos los anchos:
@@ -744,6 +956,7 @@ ol {
 }
 
 .faq__respuesta {
+  max-width: var(--ancho-lectura);
   padding-bottom: var(--space-5);
   color: var(--color-texto-secundario);
 }
@@ -815,6 +1028,19 @@ ol {
   container-type: inline-size;
 }
 
+/* Fila del mapa: debajo del título y la ficha, ocupando las dos columnas */
+.contacto__mapa {
+  display: grid;
+  gap: var(--space-4);
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 56rem) {
+  .contacto__mapa .mapa {
+    aspect-ratio: var(--mapa-proporcion-ancha);
+  }
+}
+
 @container (min-width: 30rem) {
   .ficha:not(.ficha--franja) .ficha__fila {
     grid-template-columns: var(--ancho-etiqueta) 1fr;
@@ -823,11 +1049,9 @@ ol {
   }
 }
 
+/* Las tarjetas mantienen el relleno de móvil (--space-5) en todos los
+   anchos: con --space-6 quedaban muy altas en la columna angosta. */
 @media (min-width: 36rem) {
-  .tarjeta {
-    padding: var(--space-6);
-  }
-
   .pasos {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -836,14 +1060,44 @@ ol {
 /* ---------- Pantallas medianas ---------- */
 
 @media (min-width: 56rem) {
+  /* 1 : 3 para que la columna de contenido sea ancha y las tarjetas, bajas */
   .bloque {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
     gap: var(--space-7);
   }
 
   .site-nav {
     order: 0;
     width: auto;
+  }
+
+  /* En escritorio el menú no se pliega: la lista vuelve a su lugar */
+  .site-nav__boton {
+    display: none;
+  }
+
+  .con-js .site-header__marca {
+    margin-inline-end: 0;
+  }
+
+  .con-js .site-nav__lista {
+    position: static;
+    flex-direction: row;
+    gap: var(--space-1) var(--space-2);
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+  }
+
+  .con-js .site-nav__lista .site-nav__enlace {
+    display: inline-block;
+    padding-block: var(--space-1);
+    font-size: var(--fs-sm);
   }
 
   .hero {
@@ -875,6 +1129,38 @@ ol {
   }
 }
 
+/* ---------- "Escribime" vuelve al header (desde 60rem) ----------
+   Por debajo de 60rem (unos 960 px), en el header el botón "Escribime" baja
+   a una tercera fila, debajo de la navegación; ahí conviene más el botón
+   flotante. Desde este ancho vuelve al header, con texto y sin ícono. */
+
+@media (min-width: 60rem) {
+  .con-js .site-header__whatsapp {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: var(--space-2) var(--space-4);
+    box-shadow: none;
+  }
+
+  .con-js .site-header__whatsapp-icono {
+    display: none;
+  }
+
+  .con-js .site-header__whatsapp-texto {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+  }
+
+  .con-js .site-footer {
+    padding-bottom: var(--space-7);
+  }
+}
+
 /* ---------- Página interior (preguntas-frecuentes.html) ---------- */
 
 /* Fila de cabecera: título a la izquierda, ilustración a la derecha,
@@ -901,7 +1187,6 @@ ol {
   .faq--columnas {
     grid-template-columns: repeat(2, 1fr);
     align-items: start;
-    max-width: none;
   }
 }
 
@@ -920,6 +1205,19 @@ ol {
 
   .salto {
     transition: transform var(--duracion-corta) var(--curva);
+  }
+
+  .site-nav__icono line {
+    transition: transform var(--duracion-corta) var(--curva),
+                opacity var(--duracion-corta) var(--curva);
+  }
+
+  /* visibility también entra en la transición: al cerrar, la lista sigue
+     visible hasta que termina de desvanecerse. */
+  .con-js .site-nav__lista {
+    transition: opacity var(--duracion-corta) var(--curva),
+                transform var(--duracion-corta) var(--curva),
+                visibility var(--duracion-corta) var(--curva);
   }
 
   .trazo :is(path, circle) {
