@@ -5,3 +5,7 @@ CLAUDE.local.md
 
 # Styleguide
 styleguides/
+
+# Página auxiliar para capturar la imagen Open Graph
+og-image.html
+css/og-image.css

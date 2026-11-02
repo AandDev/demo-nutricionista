@@ -2,12 +2,12 @@
 
 - **Qué es:** demo conceptual de una landing para una nutricionista ficticia (Lic. Carolina Bustos). HTML, CSS y JS vanilla, sin build. Reglas de trabajo en `CLAUDE.md`.
 - **Fuentes:** objetivos y decisiones en [brief.md](brief.md); textos aprobados en [contenido.md](contenido.md) (el HTML se arma desde ahí, sin inventar contenido); estilo en la guía aprobada [styleguides/bc-ficha-trazo/](../styleguides/bc-ficha-trazo/).
-- **Estado:** las tres páginas están construidas (`index.html`, `preguntas-frecuentes.html`, `sobre-mi.html`). Falta revisarlas en el navegador con [checklists.md](checklists.md) y resolver los Pendientes de abajo.
+- **Estado:** demo publicado en Netlify (01/11/2026). Cuatro páginas: `index.html`, `sobre-mi.html`, `preguntas-frecuentes.html` y `404.html`. Revisado en el navegador por el usuario. Quedan pendientes menores que no afectan al demo publicado (ver Pendientes). Datos Open Graph listos (02/11/2026); falta capturar la imagen para compartir.
 - **Cómo se trabaja:** una sección por vez, con revisión entre cada una; plan previo si el cambio toca más de un archivo; todo valor visual en tokens de `:root`; los commits los hace el usuario.
 
 ## Estado actual
 
-Última actualización: 31/10/2026.
+Última actualización: 01/11/2026.
 
 ### Archivos
 
@@ -15,8 +15,11 @@
 - `preguntas-frecuentes.html`: las 13 preguntas, en 2 columnas desde 48rem.
 - `sobre-mi.html`: hero, bloque con retrato y texto, Formación y cierre. `<main class="pagina--compacta">`: en móvil las secciones llevan 2rem arriba y abajo (en vez de 4rem); desde 56rem, el espacio normal.
 - `404.html`: página de error con el mismo aviso, header y footer; título "No encontramos esta página", ilustración "Cartel" y botón a la home. Lleva `noindex`.
+- `og-image.html` + `css/og-image.css`: página auxiliar (`noindex`) para capturar la imagen para compartir. No está enlazada desde el sitio. Los dos archivos están en `.gitignore`: quedan solo en local.
 - `css/styles.css`: tokens y componentes de la guía, más los agregados de abajo.
 - `js/main.js`: menú de móvil y slider de testimonios.
+- `assets/img/`: imágenes (`retrato-carolina-bustos.jpg`).
+- `README.md`: qué es el proyecto, stack, estructura y cómo verlo.
 
 ### Decisiones de la construcción (31/10/2026)
 
@@ -43,7 +46,7 @@
 
 ### Decisiones de la revisión del brief
 
-- **Alcance de demo:** sin métricas, analítica ni posicionamiento. Solo título, descripción y HTML semántico.
+- **Alcance de demo:** sin métricas, analítica ni posicionamiento. Solo título, descripción y HTML semántico. Desde el 02/11/2026 suma datos Open Graph para compartir el enlace (ver Open Graph en Notas técnicas).
 - **Precios** solo en Consultas; **"qué traer"** solo en Primera consulta. Las preguntas frecuentes enlazan a esas secciones.
 - **WhatsApp** con mensaje precargado como plantilla ("Modalidad: … / Motivo de consulta: …"). Sin plazo de respuesta: "lo antes posible". No se ofrecen llamadas.
 - **Mail** solo para profesionales de la salud (ficticio). **Instagram** solo en el footer.
@@ -60,18 +63,26 @@
 - **Contraste:** calculado con WCAG 2.x. "Trazo" y "filete" nunca se usan para texto. Sobre la banda crema: texto 12,27:1, secundario 5,76:1, acento 5,25:1.
 - **Header y footer repetidos** en las cuatro páginas (home, sobre mí, preguntas frecuentes y 404): si cambia la navegación, el WhatsApp o un dato del footer, hay que editar los cuatro archivos. En `404.html` todas las rutas son absolutas (`/css/styles.css`, `/index.html#…`), porque Vercel y Netlify la muestran en cualquier dirección inexistente, también en subcarpetas; para verla en local hace falta un servidor en la raíz. Las cuatro páginas cargan `js/main.js` (el menú lo necesita).
 
+- **Open Graph (02/11/2026):** `index.html`, `sobre-mi.html` y `preguntas-frecuentes.html` llevan `og:` (tipo, nombre del sitio, idioma, título, descripción, URL, imagen con medidas y texto alternativo) y `twitter:card` = `summary_large_image`. Título y descripción repiten los de cada página: si cambian, hay que cambiarlos en los dos lugares. URL e imagen son absolutas, con `https://demo-nutricionista.netlify.app/`: si cambia el dominio, hay que editarlas en las tres páginas. `404.html` no lleva OG (tiene `noindex`). Las tres comparten `assets/img/og-image.png`, que se captura de `og-image.html` (página auxiliar con `noindex`, marco fijo de 1200 × 630 y estilos en `css/og-image.css`; muestra etiqueta, título del hero, nombre, la ilustración "Consulta" y el aviso "Proyecto conceptual · Datos ficticios", porque la imagen circula fuera de la web).
+
+### Publicación (01/11/2026)
+
+- **Netlify,** como sitio estático, sin build. Sirve `404.html` en cualquier dirección inexistente.
+- **CSS sin minificar** (decisión del 01/11/2026): pesa 31,7 KB, pero Netlify lo envía comprimido (unos 8,6 KB); minificado y comprimido serían unos 4,3 KB. Para un demo no compensa sumar una herramienta de build. Si hiciera falta, la opción evaluada era minificar en el deploy con `npx lightningcss-cli` desde `netlify.toml`, sin cambiar el repositorio.
+
 ## Pendientes
 
-Revisión en el navegador hecha por el usuario el 01/11/2026. Foto de la profesional (`assets/img/retrato-carolina-bustos.jpg`, 812 × 1000 px) y texto de cierre de `preguntas-frecuentes.html` resueltos el mismo día. Nada de lo que sigue bloquea publicar el demo.
+Ninguno bloquea el demo publicado. Son datos que tiene que dar la clienta y mejoras opcionales.
 
-1. **`[PENDIENTE]` en el código** (son comentarios, no se ven en la página):
+1. **Imagen para compartir (Open Graph):** las etiquetas ya están (02/11/2026); falta capturar `og-image.html` y guardarla como `assets/img/og-image.png` (1200 × 630). Los pasos están en un comentario dentro de `og-image.html`. Después de publicar, revisar la vista previa al compartir el enlace por WhatsApp (puede tardar en actualizarse por la caché).
+2. **`[PENDIENTE]` en el código** (son comentarios, no se ven en la página):
    - PDF de la guía de celiaquía y si será gratuita o paga (la sección está oculta).
    - Enlace real de Instagram (hoy va como texto ficticio).
    - Descripciones de `preguntas-frecuentes.html` y `sobre-mi.html` (tienen un texto provisorio).
    - Lista completa de formación (hoy, datos ficticios).
-2. **Confirmar con la clienta:**
+3. **Confirmar con la clienta:**
    - El título del bloque con retrato de `sobre-mi.html` (ver Tono).
    - El texto de cierre de `preguntas-frecuentes.html` (genérico, escrito con su tono; ver [contenido.md](contenido.md)).
-3. **Favicon:** ninguna página tiene. El navegador lo pide igual y en el sitio publicado puede dar un error en la consola.
-4. **Opcional:** usar `.banda` en las páginas interiores (por ejemplo, para destacar Formación en `sobre-mi.html`).
-5. **Al publicar:** `styleguides/` está en `.gitignore`, así que no se sube si el deploy sale de Git (si se arrastra la carpeta a Netlify, sí). Probar la 404 entrando a una dirección inexistente.
+4. **Favicon:** ninguna página tiene. El navegador lo pide igual: en Netlify puede verse un error en la consola y la pestaña muestra un ícono genérico.
+5. **Verificar en el sitio publicado:** que `styleguides/` no se haya subido (está en `.gitignore`; solo se sube si el deploy se hizo arrastrando la carpeta) y que la 404 aparezca al entrar a una dirección inexistente.
+6. **Opcional:** usar `.banda` en las páginas interiores (por ejemplo, para destacar Formación en `sobre-mi.html`).
